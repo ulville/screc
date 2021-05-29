@@ -5,4 +5,4 @@ Attach it to a keyboard shortcut for ease of use.
 
 ## Warning:
 
-Save directory path is hardcoded on this and other two .py files. Change it according to your needs
+Save directory path is hardcoded on screc-tgg.sh and other two .py files. Change it according to your needs.
