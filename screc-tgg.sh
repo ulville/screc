@@ -13,7 +13,7 @@
     # GNU General Public License for more details.
 
     # You should have received a copy of the GNU General Public License
-    # along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
+    # along with screc.  If not, see <https://www.gnu.org/licenses/>.
 
 # Copyright Ulvican Kahya aka ulville 2021
 
@@ -44,12 +44,16 @@ function merge_a_v () {
 function mouse_led_default () {
 	if lsusb | grep -q 'Logitech'; then
 		ratbagctl 0 led 0 set mode on color 00536E
+	elif ls /sys/class/leds | grep -q 'kbd_backlight'; then
+		pkill blink-keyboard.
 	fi
 }
 
 function mouse_led_recording () {
 	if lsusb | grep -q 'Logitech'; then
 		ratbagctl 0 led 0 set mode breathing duration 500 color ff0000 brightness 200
+	elif ls /sys/class/leds | grep -q 'kbd_backlight'; then
+		$SCRIPT_DIR/blink-keyboard.sh &
 	fi
 }
 
