@@ -64,8 +64,8 @@ function mouse_led_wait () {
 }
 
 
-if pactl list short sources | grep -q 'pulseeffects'; then
-	PULSE_INPUT="pulseeffects_sink.monitor"
+if pactl list short sources | grep -q 'easyeffects'; then
+	PULSE_INPUT="easyeffects_sink.monitor"
 else
 	PULSE_INPUT="alsa_output.pci-0000_00_1f.3.analog-stereo.monitor"
 fi
@@ -81,7 +81,7 @@ then
 		pkill -2 ffmpeg
 		notify-send "Wayland Ekran Kaydı" "Ekran Kaydı Durduruldu. Dosya İşleniyor..."
 		mouse_led_wait
-		sleep 5
+		sleep 10
 		merge_a_v &&
 		mouse_led_default
 		sleep 1
