@@ -35,8 +35,9 @@ def onClose(self):
     Gtk.main_quit()
 
 Notify.init("Screencast")
-notification = Notify.Notification.new(str(sys.argv[1]))
+notification = Notify.Notification.new(str(sys.argv[1]), str(sys.argv[2]), "screen-shared")
 notification.add_action("action_click", "Konumunu Aç", show_in_dir, None)
+notification.add_action("default", "Konumunu Aç", show_in_dir, None)
 notification.connect("closed", onClose)
 notification.show()
     

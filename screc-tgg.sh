@@ -87,10 +87,10 @@ then
 		sleep 1
 		rm /run/media/ulvican/data/Ekran\ Kaydi/wayland-audio-temp.mkv
 		rm /run/media/ulvican/data/Ekran\ Kaydi/wayland-video-temp.mp4
-        $SCRIPT_DIR/action-notify.py "Kayıt Tamamlandı"
+        $SCRIPT_DIR/action-notify.py "Kayıt Tamamlandı" ""
     	
     else
-    	notify-send "Ekran Kaydı Başlatıldı" "Ses kaynağı: $PULSE_INPUT  Pencere Sistemi: $XDG_SESSION_TYPE"
+    	notify-send -i screen-shared "Ekran Kaydı Başlatıldı" "Ses kaynağı: $PULSE_INPUT  Pencere Sistemi: $XDG_SESSION_TYPE"
     	mouse_led_recording
 		record_audio &
 		record_wayland
@@ -107,10 +107,10 @@ else
 	then
     	pkill ffmpeg
     	mouse_led_default
-        $SCRIPT_DIR/action-notify.py "Ekran Kaydı Durduruldu. Kayıt Tamamlandı"
+        $SCRIPT_DIR/action-notify.py "Ekran Kaydı Durduruldu" "Kayıt Tamamlandı"
 	else
     	record_ffmpeg
-		notify-send "Ekran Kaydı Başlatıldı" "Ses kaynağı: $PULSE_INPUT  Pencere Sistemi: $XDG_SESSION_TYPE"
+		notify-send -i screen-shared "Ekran Kaydı Başlatıldı" "Ses kaynağı: $PULSE_INPUT  Pencere Sistemi: $XDG_SESSION_TYPE"
     	mouse_led_recording
 
 		for i in 1 2 3 4 5
