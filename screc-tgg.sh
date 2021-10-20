@@ -26,11 +26,11 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 function record_ffmpeg () {
-	ffmpeg -f x11grab -thread_queue_size 512 -video_size hd1080 -framerate 60 -i $DISPLAY -f pulse -thread_queue_size 512 -i $PULSE_INPUT -pix_fmt yuv444p -c:v hevc_nvenc -b:v 35M -maxrate:v 50M -rc:v vbr -tune:v hq -multipass:v fullres -rc-lookahead:v 32 -spatial_aq:v 1 /run/media/ulvican/data/Ekran\ Kaydi/screenrecord_`date +%y%m%d-%H%M%S`.mp4 &
+	ffmpeg -f x11grab -thread_queue_size 512 -video_size hd1080 -framerate 60 -i $DISPLAY -f pulse -thread_queue_size 512 -i $PULSE_INPUT -pix_fmt yuv444p -c:v hevc_nvenc -b:v 35M -maxrate:v 50M -rc:v vbr -tune:v hq -multipass:v fullres -rc-lookahead:v 32 -spatial_aq:v 1 /run/media/ulvican/LinuxData/Ekran\ Kaydi/screenrecord_`date +%y%m%d-%H%M%S`.mp4 &
 }
 
 function record_audio () {
-	ffmpeg -f pulse -thread_queue_size 512 -i $PULSE_INPUT /run/media/ulvican/data/Ekran\ Kaydi/wayland-audio-temp.mkv -y &
+	ffmpeg -f pulse -thread_queue_size 512 -i $PULSE_INPUT /run/media/ulvican/LinuxData/Ekran\ Kaydi/wayland-audio-temp.mkv -y &
 }
 
 function record_wayland () {
@@ -38,7 +38,7 @@ function record_wayland () {
 }
 
 function merge_a_v () {
-	ffmpeg -i /run/media/ulvican/data/Ekran\ Kaydi/wayland-video-temp.mp4 -i /run/media/ulvican/data/Ekran\ Kaydi/wayland-audio-temp.mkv -c copy /run/media/ulvican/data/Ekran\ Kaydi/screenrecord_`date +%y%m%d-%H%M%S`.mp4
+	ffmpeg -i /run/media/ulvican/LinuxData/Ekran\ Kaydi/wayland-video-temp.mp4 -i /run/media/ulvican/LinuxData/Ekran\ Kaydi/wayland-audio-temp.mkv -c copy /run/media/ulvican/LinuxData/Ekran\ Kaydi/screenrecord_`date +%y%m%d-%H%M%S`.mp4
 }
 
 function mouse_led_default () {
@@ -85,8 +85,8 @@ then
 		merge_a_v &&
 		mouse_led_default
 		sleep 1
-		rm /run/media/ulvican/data/Ekran\ Kaydi/wayland-audio-temp.mkv
-		rm /run/media/ulvican/data/Ekran\ Kaydi/wayland-video-temp.mp4
+		rm /run/media/ulvican/LinuxData/Ekran\ Kaydi/wayland-audio-temp.mkv
+		rm /run/media/ulvican/LinuxData/Ekran\ Kaydi/wayland-video-temp.mp4
         $SCRIPT_DIR/action-notify.py "Kayıt Tamamlandı" ""
     	
     else

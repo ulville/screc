@@ -24,7 +24,7 @@ from gi.repository import GLib
 
 bus = SessionBus()
 GNOMEScreencast = bus.get('org.gnome.Shell.Screencast', '/org/gnome/Shell/Screencast')
-filename = "/run/media/ulvican/data/Ekran\ Kaydi/wayland-video-temp.mp4"
+filename = "/run/media/ulvican/LinuxData/Ekran\ Kaydi/wayland-video-temp.mp4"
 RecorderPipeline = "x264enc pass=qual quantizer=0 speed-preset=ultrafast ! queue ! mp4mux"
 
 def stopgnomerec():
