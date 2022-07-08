@@ -19,6 +19,9 @@
 
 # This is a shell script I use to record my screen in both Xorg and GNOME-Wayland sessions
 # Attach it to a keyboard shortcut for ease of use.
+# It uses ffmpeg under Xorg. I used Nvidia's NVENC encoding but you should change ffmpeg parameters for your needs.
+# It uses OBS, obs-websocket and obs-cli for recording on Wayland
+# If you're going to use it under Wayland create a .env file inside script directory and paste your obs-websocket password inside it.
 
 # Warning:
 # Save directory path is hardcoded on this and other two .py files. Change it according to your needs
@@ -29,16 +32,8 @@ function record_ffmpeg () {
 	ffmpeg -f x11grab -thread_queue_size 512 -video_size hd1080 -framerate 60 -i $DISPLAY -f pulse -thread_queue_size 512 -i $PULSE_INPUT -pix_fmt yuv444p -c:v hevc_nvenc -b:v 35M -maxrate:v 50M -rc:v vbr -tune:v hq -multipass:v fullres -rc-lookahead:v 32 -spatial_aq:v 1 /run/media/ulvican/LinuxData/Ekran\ Kaydi/screenrecord_`date +%y%m%d-%H%M%S`.mp4 &
 }
 
-function record_audio () {
-	ffmpeg -f pulse -thread_queue_size 512 -i $PULSE_INPUT /run/media/ulvican/LinuxData/Ekran\ Kaydi/wayland-audio-temp.mkv -y &
-}
-
 function record_wayland () {
-	$SCRIPT_DIR/gnome-shell-record.py
-}
-
-function merge_a_v () {
-	ffmpeg -i /run/media/ulvican/LinuxData/Ekran\ Kaydi/wayland-video-temp.mp4 -i /run/media/ulvican/LinuxData/Ekran\ Kaydi/wayland-audio-temp.mkv -c copy /run/media/ulvican/LinuxData/Ekran\ Kaydi/screenrecord_`date +%y%m%d-%H%M%S`.mp4
+	obs --startrecording --minimize-to-tray
 }
 
 function mouse_led_default () {
@@ -74,25 +69,21 @@ fi
 # If it's wayland
 if [ $XDG_SESSION_TYPE = "wayland" ]
 then
-	SERVICE="gnome-shell-rec"
+	SERVICE="obs"
 	if pgrep -x "$SERVICE" >/dev/null
 	then
-		pkill -2 gnome-shell-rec
-		pkill -2 ffmpeg
-		notify-send "Wayland Ekran Kaydı" "Ekran Kaydı Durduruldu. Dosya İşleniyor..."
+		WEBSOCKET_PASSWORD="$(cat $SCRIPT_DIR/.env)"
+		obs-cli --password $WEBSOCKET_PASSWORD recording stop
 		mouse_led_wait
-		sleep 10
-		merge_a_v &&
+		notify-send "Wayland Ekran Kaydı" "Ekran Kaydı Durduruldu. Dosya İşleniyor..."
+		sleep 2
+		pkill -2 obs
 		mouse_led_default
-		sleep 1
-		rm /run/media/ulvican/LinuxData/Ekran\ Kaydi/wayland-audio-temp.mkv
-		rm /run/media/ulvican/LinuxData/Ekran\ Kaydi/wayland-video-temp.mp4
         $SCRIPT_DIR/action-notify.py "Kayıt Tamamlandı" ""
     	
     else
     	notify-send -i screen-shared "Ekran Kaydı Başlatıldı" "Ses kaynağı: $PULSE_INPUT  Pencere Sistemi: $XDG_SESSION_TYPE"
     	mouse_led_recording
-		record_audio &
 		record_wayland
     	
     fi
