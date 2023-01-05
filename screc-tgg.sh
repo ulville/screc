@@ -80,7 +80,7 @@ then
 		do
 			:
 		done
-		pkill -2 obs
+		pkill -15 obs
 		mouse_led_default
         $SCRIPT_DIR/action-notify.py "Kayıt Tamamlandı" ""
     	
