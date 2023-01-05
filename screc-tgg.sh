@@ -76,7 +76,10 @@ then
 		obs-cli --password $WEBSOCKET_PASSWORD recording stop
 		mouse_led_wait
 		notify-send "Wayland Ekran Kaydı" "Ekran Kaydı Durduruldu. Dosya İşleniyor..."
-		sleep 2
+		while [ ! "$(obs-cli --password $WEBSOCKET_PASSWORD recording status)" = "Recording: false" ];
+		do
+			:
+		done
 		pkill -2 obs
 		mouse_led_default
         $SCRIPT_DIR/action-notify.py "Kayıt Tamamlandı" ""
