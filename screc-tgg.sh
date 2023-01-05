@@ -29,11 +29,11 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 function record_ffmpeg () {
-	ffmpeg -f x11grab -thread_queue_size 512 -video_size hd1080 -framerate 60 -i $DISPLAY -f pulse -thread_queue_size 512 -i $PULSE_INPUT -pix_fmt yuv444p -c:v hevc_nvenc -b:v 35M -maxrate:v 50M -rc:v vbr -tune:v hq -multipass:v fullres -rc-lookahead:v 32 -spatial_aq:v 1 /run/media/ulvican/LinuxData/Ekran\ Kaydi/screenrecord_`date +%y%m%d-%H%M%S`.mp4 &
+	ffmpeg -f x11grab -thread_queue_size 512 -video_size hd1080 -framerate 60 -i $DISPLAY -f pulse -thread_queue_size 512 -i $PULSE_INPUT -pix_fmt yuv444p -c:v hevc_nvenc -b:v 35M -maxrate:v 50M -rc:v vbr -tune:v hq -multipass:v fullres -rc-lookahead:v 32 -spatial_aq:v 1 /mnt/LinuxData/Ekran\ Kaydi/screenrecord_`date +%y%m%d-%H%M%S`.mp4 &
 }
 
 function record_wayland () {
-	obs --startrecording --minimize-to-tray
+	flatpak run --command=obs com.obsproject.Studio --startrecording --minimize-to-tray
 }
 
 function mouse_led_default () {

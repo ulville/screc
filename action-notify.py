@@ -27,7 +27,7 @@ import sys
 
 # Define a callback function
 def show_in_dir(*args, **kwargs):
-    os.system("xdg-open /run/media/ulvican/LinuxData/Ekran\ Kaydi")
+    os.system("xdg-open /mnt/LinuxData/Ekran\ Kaydi")
     Gtk.main_quit()
 
 def onClose(self):
